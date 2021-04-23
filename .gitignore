@@ -1,3 +1,34 @@
-# Default ignored files
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
+build/
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Output of 'npm pack'
+*.tgz
+
+#intelliJ
 .idea
-node_modules
+.run
+
+#mac
+.DS_Store
+
+#local development
+.run/

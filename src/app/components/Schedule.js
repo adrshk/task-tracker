@@ -70,14 +70,14 @@ const Schedule = (props) => {
                 months?.map((month) => {
                   return (
                     <>
-                      <div className="column is-one-fifth" key={month.index}>
+                      <div className="column is-one-quarter" key={month.index}>
                         <h3 className="title box" style={{
                           whiteSpace: 'nowrap'
                         }}>{month.name}</h3>
   
                         <div>
                           {
-                            data && data['january']?.map((element) => {
+                            data && data[month?.name?.toLowerCase()]?.map((element) => {
                               return (
                                 <div
                                   key={element.id}

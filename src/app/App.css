@@ -47,19 +47,12 @@
 
 
 .scrolling-wrapper {
-
     width: 100%;
-
     overflow-x: scroll;
-
     overflow-y: hidden;
-
     padding-bottom: 2%;
-
     margin-bottom: 2%;
-
-    /* height: 85vh; */
-
+    height: 85vh;
 }
 
 
@@ -118,4 +111,31 @@
     to {
         transform: rotate(360deg);
     }
+}
+
+.is-capitalize {
+    text-transform: capitalize;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+}
+
+.filter-container .checkbox {
+    width: 100px;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.filter-container input {
+    height: 18px;
+    width: 18px;
+    margin-right: 10px;
+}
+
+.hide-event {
+    display: none;
 }

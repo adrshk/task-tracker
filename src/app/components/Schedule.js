@@ -1,34 +1,19 @@
 import React, { useEffect, useState } from 'react'
-import CheckBox from './CheckBox'
+import Filters from './Filters'
 
 const Schedule = (props) => {
-  const [months,] = useState([
-    { index: 1, name: 'January' },
-    { index: 2, name: 'February' },
-    { index: 3, name: 'March' },
-    { index: 4, name: 'April' },
-    { index: 5, name: 'May' },
-    { index: 6, name: 'June' },
-    { index: 7, name: 'July' },
-    { index: 8, name: 'August' },
-    { index: 9, name: 'September' },
-    { index: 10, name: 'October' },
-    { index: 11, name: 'November' },
-    { index: 12, name: 'December' },
-  ])
   
-  const [Filters, setFilters] = useState({
-    checks: []
-  })
-  
-  const [data, setData] = useState(undefined)
+  const [eventData, setEventData] = useState(undefined)
+  const [filteredData, serFilteredData] = useState(undefined)
+  const [selectedFilters, setSelectedFilters] = useState([])
   
   useEffect(() => {
     fetch('./MOCK_DATA.json')
       .then(res => res.json())
-      .then(res => {
-        console.log(res)
-        setData(res)
+      .then(response => {
+        console.log(response)
+        setEventData(response)
+        serFilteredData(response)
       })
       .catch(console.error)
   }, [])
@@ -42,46 +27,44 @@ const Schedule = (props) => {
     </>
   )
   
-  const handleFilters = (filters, sets) => {
-    console.log(filters)
-    const newFilters = { ...Filters }
-    newFilters[sets] = filters
-    if (filters[0] === 1) {
-      console.log('hi')
+  const handleFilters = (event) => {
+    const index = selectedFilters?.indexOf(event.target.value)
+    if (index !== -1) {
+      setSelectedFilters(selectedFilters => selectedFilters.filter((item) => item !== event.target.value))
     } else {
-      console.log('hi x2')
+      setSelectedFilters(selectedFilters => [...selectedFilters, event.target.value])
     }
-    
   }
+  
   return (
     <div className="columns">
       <div className="column is-2">
         <h1 className="subtitle "><strong>Johnny</strong></h1>
-        <CheckBox handleFilters={filters => handleFilters(filters, 'checks')}/>
+        <Filters handleFilters={handleFilters}/>
       </div>
-      <div className="column column is-10 pr-2">
-        <button className="tag is-success is-large">Editing</button>
-        <button className="tag is-warning is-large">Researching</button>
+      <div className="column is-10 pr-2 event-container">
+        <button className="tag is-success is-large mx-1">Editing</button>
+        <button className="tag is-warning is-large mx-1">Researching</button>
         <hr></hr>
         <div className="scrolling-wrapper">
           <div className="row">
             <div className="columns" align="center">
               {
-                months?.map((month) => {
+                filteredData && Object.keys(filteredData)?.map((month) => {
                   return (
                     <>
-                      <div className="column is-one-quarter" key={month.index}>
-                        <h3 className="title box" style={{
+                      <div className="column is-one-quarter" key={month.toLowerCase()}>
+                        <h3 className="title box is-capitalize " style={{
                           whiteSpace: 'nowrap'
-                        }}>{month.name}</h3>
-  
+                        }}>{month}</h3>
+                        
                         <div>
                           {
-                            data && data[month?.name?.toLowerCase()]?.map((element) => {
+                            filteredData[month?.toLowerCase()]?.map((element) => {
                               return (
                                 <div
                                   key={element.id}
-                                  className="is-one-fifth box"
+                                  className={`is-one-fifth box ${selectedFilters.length > 0 && !selectedFilters.includes(element.tag1) && !selectedFilters.includes(element.tag2) ? 'hide-event' : ''}`}
                                   id={element.id}>
                                   {cardElement(element)}
                                 </div>
